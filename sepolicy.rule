@@ -1,0 +1,6 @@
+allow init font_data_file:dir { open read getattr search write add_name create setattr }
+allow init font_data_file:file { create open read write getattr setattr relabelfrom relabelto }
+allow init system_data_file:file { relabelfrom }
+allow magisk font_data_file:dir { open read getattr search write add_name create setattr }
+allow magisk font_data_file:file { create open read write getattr setattr relabelfrom relabelto }
+allow magisk system_data_file:file { relabelfrom }

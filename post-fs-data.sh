@@ -49,7 +49,7 @@ add_ja $MODDIR/system/etc/fonts.xml
 gsans=/system/product/etc/fonts_customization.xml
 if [ -e $gsans ]; then
 	cp $gsans $MODDIR$gsans
-	replace_gsans $MODDIR$gsans
+	# replace_gsans $MODDIR$gsans  # disabled: adds <axis ital> to static font entries, may trigger variation constructor bug
 fi
 
 #Goodbye, SomcUDGothic
@@ -182,4 +182,9 @@ if [ -e /system/product/etc/$oos12p ]; then
 	sed -i 's@OplusSansDisplay-45Lt@McMejiro-Light@g' $MODDIR/system/product/etc/$oos12p
 fi
 
-cp $MODDIR/system/etc/fonts.xml $MODDIR/system/etc/font_fallback.xml
+fallback_src=/system/etc/font_fallback.xml
+if [ -e $fallback_src ]; then
+    cp $fallback_src $MODDIR/system/etc/font_fallback.xml
+    remove_ja $MODDIR/system/etc/font_fallback.xml
+    add_ja $MODDIR/system/etc/font_fallback.xml
+fi
