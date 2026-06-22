@@ -8,6 +8,9 @@ MODDIR=${0%/*}
 # This script will be executed in post-fs-data mode
 
 APILEVEL=$(getprop ro.build.version.sdk)
+MCMEJIRO_CJK_SANS_FONT=NotoSansCJK-Regular.ttc
+MCMEJIRO_CJK_SERIF_FONT=NotoSerifCJK-Regular.ttc
+MCMEJIRO_CJK_INDEX=2
 
 #Copy original fonts.xml to the MODDIR to overwrite dummy file
 mkdir -p $MODDIR/system/etc $MODDIR/system/system_ext/etc $MODDIR/system/product/etc
@@ -20,21 +23,38 @@ remove_ja() {
 
 #Function to add ja above zh-Hans
 add_ja() {
-	if [ -e $MODDIR/system/fonts/disable-extra-weights ] ; then
-		if [ $APILEVEL -ge 31 ] ; then
-			#Android 12 and later
-			sed -i 's@<family lang="zh-Hans">@<family lang="ja">\n        <font weight="300" style="normal">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal">McMejiro-Bold.ttf</font>\n        <font weight="300" style="normal" fallbackFor="serif">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal" fallbackFor="serif">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal" fallbackFor="serif">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal" fallbackFor="serif">McMejiro-Bold.ttf</font>\n    </family>\n    <family lang="zh-Hans">@g' $1
-		else
-			sed -i 's@<family lang="zh-Hans">@<family lang="ja">\n        <font weight="300" style="normal">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal">McMejiro-Bold.ttf</font>\n        <font weight="300" style="normal" fallbackFor="serif">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal" fallbackFor="serif">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal" fallbackFor="serif">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal" fallbackFor="serif">McMejiro-Bold.ttf</font>\n    </family>\n    <family lang="zh-Hans">@g' $1
-		fi
+	if [ -e $MODDIR/system/fonts/disable-extra-weights ]; then
+		sed -i "s@<family lang=\"zh-Hans\">@<family lang=\"ja\">\\n        <font weight=\"300\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"400\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"600\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"700\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"300\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"400\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"600\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"700\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n    </family>\\n    <family lang=\"zh-Hans\">@g" $1
 	else
-		if [ $APILEVEL -ge 31 ]; then
-			#Android 12 and later
-			sed -i 's@<family lang="zh-Hans">@<family lang="ja">\n        <font weight="100" style="normal">McMejiro-Thin.ttf</font>\n        <font weight="300" style="normal">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal">McMejiro-Bold.ttf</font>\n        <font weight="800" style="normal">McMejiro-Extrabold.ttf</font>\n        <font weight="100" style="normal" fallbackFor="serif">McMejiro-Thin.ttf</font>\n        <font weight="300" style="normal" fallbackFor="serif">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal" fallbackFor="serif">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal" fallbackFor="serif">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal" fallbackFor="serif">McMejiro-Bold.ttf</font>\n        <font weight="800" style="normal" fallbackFor="serif">McMejiro-Extrabold.ttf</font>\n    </family>\n    <family lang="zh-Hans">@g' $1
-		else
-			sed -i 's@<family lang="zh-Hans">@<family lang="ja">\n        <font weight="100" style="normal">McMejiro-Thin.ttf</font>\n        <font weight="300" style="normal">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal">McMejiro-Bold.ttf</font>\n        <font weight="800" style="normal">McMejiro-Extrabold.ttf</font>\n        <font weight="100" style="normal" fallbackFor="serif">McMejiro-Thin.ttf</font>\n        <font weight="300" style="normal" fallbackFor="serif">McMejiro-Light.ttf</font>\n        <font weight="400" style="normal" fallbackFor="serif">McMejiro-Regular.ttf</font>\n        <font weight="600" style="normal" fallbackFor="serif">McMejiro-Semibold.ttf</font>\n        <font weight="700" style="normal" fallbackFor="serif">McMejiro-Bold.ttf</font>\n        <font weight="800" style="normal" fallbackFor="serif">McMejiro-Extrabold.ttf</font>\n    </family>\n    <family lang="zh-Hans">@g' $1
-		fi
+		sed -i "s@<family lang=\"zh-Hans\">@<family lang=\"ja\">\\n        <font weight=\"100\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"300\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"400\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"600\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"700\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"800\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\">$MCMEJIRO_CJK_SANS_FONT</font>\\n        <font weight=\"100\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"300\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"400\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"600\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"700\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n        <font weight=\"800\" style=\"normal\" index=\"$MCMEJIRO_CJK_INDEX\" fallbackFor=\"serif\">$MCMEJIRO_CJK_SERIF_FONT</font>\\n    </family>\\n    <family lang=\"zh-Hans\">@g" $1
 	fi
+}
+
+# McMejiro is exposed through stock CJK TTC paths so isolated namespaces can
+# still open the original stock files when Magisk overlays are hidden by PIF.
+sanitize_cjk_alias_axes() {
+  tmp=$1.tmp.$$
+  sed -i \
+    -e 's@ postScriptName="NotoSansCJKJP-Regular"@@g' \
+    -e 's@ postScriptName="NotoSansCJKjp-Regular"@@g' \
+    -e 's@ postScriptName="NotoSerifCJKjp-Regular"@@g' \
+    $1
+  awk -v sans="$MCMEJIRO_CJK_SANS_FONT" -v serif="$MCMEJIRO_CJK_SERIF_FONT" '
+    index($0, sans) || index($0, serif) {
+      gsub(/ supportedAxes="wght"/, "")
+      print
+      skip_axis = 1
+      next
+    }
+    skip_axis && $0 ~ /<axis[[:space:]]+tag="wght"/ {
+      skip_axis = 0
+      next
+    }
+    {
+      skip_axis = 0
+      print
+    }
+  ' $1 > $tmp && mv $tmp $1
 }
 
 #Function to replace Google Sans
@@ -45,6 +65,7 @@ replace_gsans() {
 #Change fonts.xml file
 remove_ja $MODDIR/system/etc/fonts.xml
 add_ja $MODDIR/system/etc/fonts.xml
+sanitize_cjk_alias_axes $MODDIR/system/etc/fonts.xml
 
 gsans=/system/product/etc/fonts_customization.xml
 if [ -e $gsans ]; then
@@ -93,8 +114,8 @@ if [ -e /system/product/fonts/MiSansTCVF.ttf ]; then
 fi
 
 #Goodbye, vivo Font
-sed -i 's@VivoFont.ttf@McMejiro-Regular.ttf@g' $MODDIR/system/etc/fonts.xml
-sed -i 's@DroidSansFallbackBBK.ttf@McMejiro-Regular.ttf@g' $MODDIR/system/etc/fonts.xml
+sed -i "s@VivoFont.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/fonts.xml
+sed -i "s@DroidSansFallbackBBK.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/fonts.xml
 if [ -e /system/fonts/HYQiHei-50.ttf ]; then
 cp /system/fonts/Roboto-Regular.ttf $MODDIR/system/fonts/HYQiHei-50.ttf
 fi
@@ -119,14 +140,15 @@ if [ -e /system/etc/$opslate ]; then
 	#Change fonts_slate.xml file
 	remove_ja $MODDIR/system/etc/$opslate
 	add_ja $MODDIR/system/etc/$opslate
+	sanitize_cjk_alias_axes $MODDIR/system/etc/$opslate
 
-	sed -i 's@SlateForOnePlus-Thin.ttf@McMejiro-Light.ttf@g' $MODDIR/system/etc/$opslate
-	sed -i 's@SlateForOnePlus-Light.ttf@McMejiro-Light.ttf@g' $MODDIR/system/etc/$opslate
-	sed -i 's@SlateForOnePlus-Book.ttf@McMejiro-Regular.ttf@g' $MODDIR/system/etc/$opslate
-	sed -i 's@SlateForOnePlus-Regular.ttf@McMejiro-Regular.ttf@g' $MODDIR/system/etc/$opslate
-	sed -i 's@SlateForOnePlus-Medium.ttf@McMejiro-Semibold.ttf@g' $MODDIR/system/etc/$opslate
-	sed -i 's@SlateForOnePlus-Bold.ttf@McMejiro-Bold.ttf@g' $MODDIR/system/etc/$opslate
-	sed -i 's@SlateForOnePlus-Black.ttf@McMejiro-Extrabold.ttf@g' $MODDIR/system/etc/$opslate
+	sed -i "s@SlateForOnePlus-Thin.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/$opslate
+	sed -i "s@SlateForOnePlus-Light.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/$opslate
+	sed -i "s@SlateForOnePlus-Book.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/$opslate
+	sed -i "s@SlateForOnePlus-Regular.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/$opslate
+	sed -i "s@SlateForOnePlus-Medium.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/$opslate
+	sed -i "s@SlateForOnePlus-Bold.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/$opslate
+	sed -i "s@SlateForOnePlus-Black.ttf@$MCMEJIRO_CJK_SANS_FONT@g" $MODDIR/system/etc/$opslate
 fi
 
 #Copy fonts_base.xml for OnePlus OxygenOS 11
@@ -137,6 +159,7 @@ if [ -e /system/etc/$oos11 ]; then
 	#Change fonts_slate.xml file
 	remove_ja $MODDIR/system/etc/$oos11
 	add_ja $MODDIR/system/etc/$oos11
+	sanitize_cjk_alias_axes $MODDIR/system/etc/$oos11
 
 	sed -i 's@NotoSerif-@Roboto-@g' $MODDIR/system/etc/$oos11
 fi
@@ -149,6 +172,7 @@ if [ -e /system/system_ext/etc/$oos12 ]; then
 	#Change fonts_slate.xml file
 	remove_ja $MODDIR/system/system_ext/etc/$oos12
 	add_ja $MODDIR/system/system_ext/etc/$oos12
+	sanitize_cjk_alias_axes $MODDIR/system/system_ext/etc/$oos12
 
 	sed -i 's@SysSans-En-Regular@Roboto-Regular@g' $MODDIR/system/system_ext/etc/$oos12
 	sed -i 's@NotoSerif-@Roboto-@g' $MODDIR/system/system_ext/etc/$oos12
@@ -187,8 +211,5 @@ if [ -e $fallback_src ]; then
     cp $fallback_src $MODDIR/system/etc/font_fallback.xml
     remove_ja $MODDIR/system/etc/font_fallback.xml
     add_ja $MODDIR/system/etc/font_fallback.xml
-    # Add NotoSansCJK as secondary ja fallback for kanji coverage.
-    # McMejiro only covers kana; without this, kanji falls through to
-    # zh-Hans whose variation FontFamily triggers a minikin crash on A17.
-    sed -i 's@<family lang="zh-Hans">@<family lang="ja">\n        <font weight="400" style="normal" index="2">NotoSansCJK-Regular.ttc</font>\n        <font weight="400" style="normal" index="2" fallbackFor="serif">NotoSerifCJK-Regular.ttc</font>\n    </family>\n    <family lang="zh-Hans">@' $MODDIR/system/etc/font_fallback.xml
+    sanitize_cjk_alias_axes $MODDIR/system/etc/font_fallback.xml
 fi
