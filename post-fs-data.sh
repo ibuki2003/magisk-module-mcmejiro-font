@@ -10,7 +10,7 @@ MODDIR=${0%/*}
 APILEVEL=$(getprop ro.build.version.sdk)
 MCMEJIRO_CJK_SANS_FONT=NotoSansCJK-Regular.ttc
 MCMEJIRO_CJK_SERIF_FONT=NotoSerifCJK-Regular.ttc
-MCMEJIRO_CJK_INDEX=2
+MCMEJIRO_CJK_INDEX=0
 
 #Copy original fonts.xml to the MODDIR to overwrite dummy file
 mkdir -p $MODDIR/system/etc $MODDIR/system/system_ext/etc $MODDIR/system/product/etc
@@ -30,31 +30,10 @@ add_ja() {
 	fi
 }
 
-# McMejiro is exposed through stock CJK TTC paths so isolated namespaces can
-# still open the original stock files when Magisk overlays are hidden by PIF.
+# The generated CJK TTC keeps stock fonts in non-Japanese indexes, so stock
+# metadata for those indexes must remain intact.
 sanitize_cjk_alias_axes() {
-  tmp=$1.tmp.$$
-  sed -i \
-    -e 's@ postScriptName="NotoSansCJKJP-Regular"@@g' \
-    -e 's@ postScriptName="NotoSansCJKjp-Regular"@@g' \
-    -e 's@ postScriptName="NotoSerifCJKjp-Regular"@@g' \
-    $1
-  awk -v sans="$MCMEJIRO_CJK_SANS_FONT" -v serif="$MCMEJIRO_CJK_SERIF_FONT" '
-    index($0, sans) || index($0, serif) {
-      gsub(/ supportedAxes="wght"/, "")
-      print
-      skip_axis = 1
-      next
-    }
-    skip_axis && $0 ~ /<axis[[:space:]]+tag="wght"/ {
-      skip_axis = 0
-      next
-    }
-    {
-      skip_axis = 0
-      print
-    }
-  ' $1 > $tmp && mv $tmp $1
+  :
 }
 
 #Function to replace Google Sans
